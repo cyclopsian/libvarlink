@@ -1,0 +1,11 @@
+varlink (19) UNRELEASED; urgency=medium
+
+  * Update to 19
+
+ -- Jason Francis <cycl0ps@tuta.io>  Tue, 21 Apr 2020 10:56:24 -0400
+
+varlink (18-1) buster; urgency=low
+
+  * Initial release.
+
+ -- Jason Francis <cycl0ps@tuta.io>  Sat, 21 Sep 2019 16:59:52 -0400
