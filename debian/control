@@ -1,0 +1,39 @@
+Source: varlink
+Section: devel
+Priority: optional
+Maintainer: Jason Francis <cycl0ps@tuta.io>
+Build-Depends: debhelper (>= 11),
+               meson (>= 0.40.0),
+               valgrind
+Standards-Version: 4.1.3
+Homepage: https://varlink.org/
+Vcs-Browser: https://github.com/cyclopsian/libvarlink
+Vcs-Git: https://github.com/cyclopsian/libvarlink.git
+
+Package: libvarlink0
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: interprocess communication for services (library)
+ Varlink is an interface description format and protocol that aims to make
+ services accessible to both humans and machines in the simplest feasible way.
+ .
+ This package contains the shared library.
+
+Package: libvarlink-dev
+Architecture: any
+Depends: ${misc:Depends}, libvarlink0 (= ${binary:Version})
+Description: interprocess communication for services (development files)
+ Varlink is an interface description format and protocol that aims to make
+ services accessible to both humans and machines in the simplest feasible way.
+ .
+ This package contains the header and development files.
+
+Package: varlink-utils
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: interprocess communication for services (command line tool)
+ Varlink is an interface description format and protocol that aims to make
+ services accessible to both humans and machines in the simplest feasible way.
+ .
+ This package contains the command line tool for interacting with Varlink
+ services remotely.
