@@ -51,6 +51,19 @@ enum {
 };
 
 /*
+ * Basic types that can be sent in an object or array.
+ */
+typedef enum {
+        VARLINK_VALUE_UNDEFINED,
+        VARLINK_VALUE_NULL,
+        VARLINK_VALUE_BOOL,
+        VARLINK_VALUE_INT,
+        VARLINK_VALUE_FLOAT,
+        VARLINK_VALUE_STRING,
+        VARLINK_VALUE_ARRAY,
+        VARLINK_VALUE_OBJECT
+} VarlinkValueKind;
+/*
  * Objects and arrays represent basic data types corresponding with JSON
  * objects and arrays.
  */
@@ -161,6 +174,11 @@ long varlink_object_to_json(VarlinkObject *object, char **stringp);
 long varlink_object_get_field_names(VarlinkObject *object, const char ***namesp);
 
 /*
+ * Get the type of a value from an object.
+ */
+long varlink_object_get_kind(VarlinkObject *object, const char *field_name, VarlinkValueKind *kind);
+
+/*
  * Get values from an object.
  */
 long varlink_object_set_null(VarlinkObject *object, const char *field);
@@ -211,6 +229,12 @@ void varlink_array_unrefp(VarlinkArray **arrayp);
  */
 unsigned long varlink_array_get_n_elements(VarlinkArray *array);
 
+/*
+ * Extract the type of the array element at index.
+ *
+ * Returns 0 or a negative VARLINK_ERROR.
+ */
+long varlink_array_get_kind(VarlinkArray *array, unsigned long index, VarlinkValueKind *kind);
 /*
  * Extract a value of the array element at index.
  *

@@ -123,6 +123,15 @@ _public_ unsigned long varlink_array_get_n_elements(VarlinkArray *array) {
         return array->n_elements;
 }
 
+_public_ long varlink_array_get_kind(VarlinkArray *array, unsigned long index, VarlinkValueKind *kind) {
+        if (index >= array->n_elements)
+                return -VARLINK_ERROR_INVALID_INDEX;
+
+        *kind = array->elements[index].kind;
+
+        return 0;
+}
+
 _public_ long varlink_array_get_bool(VarlinkArray *array, unsigned long index, bool *bp) {
         if (index >= array->n_elements)
                 return -VARLINK_ERROR_INVALID_INDEX;

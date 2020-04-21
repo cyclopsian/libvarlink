@@ -6,17 +6,6 @@
 
 #include <stdio.h>
 
-typedef enum {
-        VARLINK_VALUE_UNDEFINED,
-        VARLINK_VALUE_NULL,
-        VARLINK_VALUE_BOOL,
-        VARLINK_VALUE_INT,
-        VARLINK_VALUE_FLOAT,
-        VARLINK_VALUE_STRING,
-        VARLINK_VALUE_ARRAY,
-        VARLINK_VALUE_OBJECT
-} VarlinkValueKind;
-
 typedef struct {
         VarlinkValueKind kind;
         union {

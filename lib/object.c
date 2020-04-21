@@ -205,6 +205,18 @@ _public_ long varlink_object_get_field_names(VarlinkObject *object, const char *
         return n_fields;
 }
 
+_public_ long varlink_object_get_kind(VarlinkObject *object, const char *field_name, VarlinkValueKind *kind) {
+        Field *field;
+
+        field = avl_tree_find(object->fields, field_name);
+        if (!field)
+                return -VARLINK_ERROR_UNKNOWN_FIELD;
+
+        *kind = field->value.kind;
+
+        return 0;
+}
+
 _public_ long varlink_object_get_bool(VarlinkObject *object, const char *field_name, bool *bp) {
         Field *field;
 
