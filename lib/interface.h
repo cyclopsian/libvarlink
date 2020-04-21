@@ -5,7 +5,6 @@
 #include "type.h"
 #include "varlink.h"
 
-typedef struct VarlinkInterface VarlinkInterface;
 typedef struct VarlinkInterfaceMember VarlinkInterfaceMember;
 typedef struct VarlinkTypeAlias VarlinkTypeAlias;
 typedef struct VarlinkMethod VarlinkMethod;

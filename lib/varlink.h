@@ -77,6 +77,10 @@ typedef struct VarlinkArray VarlinkArray;
 typedef struct VarlinkService VarlinkService;
 
 /*
+ * An interface registered to a service.
+ */
+typedef struct VarlinkInterface VarlinkInterface;
+/*
  * An incoming method call.
  */
 typedef struct VarlinkCall VarlinkCall;
@@ -235,6 +239,7 @@ unsigned long varlink_array_get_n_elements(VarlinkArray *array);
  * Returns 0 or a negative VARLINK_ERROR.
  */
 long varlink_array_get_kind(VarlinkArray *array, unsigned long index, VarlinkValueKind *kind);
+
 /*
  * Extract a value of the array element at index.
  *
@@ -322,9 +327,15 @@ long varlink_service_add_interface(VarlinkService *service,
  */
 long varlink_service_add_interfacev(VarlinkService *service,
                                    const char *interface_description,
-                                   VarlinkMethodDefinition *methods,
-                                   long num_methods);
-
+                                   const VarlinkMethodDefinition *methods,
+                                   long num_methods,
+                                   VarlinkInterface **interfacep);
+/*
+ * Removes an interface from the service. The interface object is set to NULL
+ * afterwards.
+ */
+long varlink_service_remove_interfacep(VarlinkService *service,
+                                       VarlinkInterface **interfacep);
 /*
  * Get the file descriptor to integrate with poll() into a mainloop; it becomes
  * readable whenever there is a connection which gets ready to receive or send

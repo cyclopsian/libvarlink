@@ -472,8 +472,9 @@ _public_ long varlink_service_add_interface(VarlinkService *service,
 
 _public_ long varlink_service_add_interfacev(VarlinkService *service,
                                              const char *interface_description,
-                                             VarlinkMethodDefinition *methods,
-                                             long num_methods) {
+                                             const VarlinkMethodDefinition *methods,
+                                             long num_methods,
+                                             VarlinkInterface **interfacep) {
         _cleanup_(varlink_interface_freep) VarlinkInterface *interface = NULL;
         long n;
         long r;
@@ -507,7 +508,32 @@ _public_ long varlink_service_add_interfacev(VarlinkService *service,
                         return -VARLINK_ERROR_PANIC;
         }
 
+        if (interfacep != NULL) {
+                *interfacep = interface;
+        }
+
         interface = NULL;
+
+        return 0;
+}
+
+_public_ long varlink_service_remove_interfacep(VarlinkService *service,
+                                                VarlinkInterface **interfacep) {
+        if (!service->interfaces)
+                return -VARLINK_ERROR_PANIC;
+
+        switch (avl_tree_remove(service->interfaces, (*interfacep)->name)) {
+                case 0:
+                        break;
+
+                case -AVL_ERROR_UNKNOWN_KEY:
+                        return -VARLINK_ERROR_INVALID_INTERFACE;
+
+                default:
+                        return -VARLINK_ERROR_PANIC;
+        }
+
+        *interfacep = NULL;
 
         return 0;
 }
