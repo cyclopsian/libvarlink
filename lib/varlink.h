@@ -103,6 +103,14 @@ typedef long (*VarlinkReplyFunc)(VarlinkConnection *connection,
                                  VarlinkObject *parameters,
                                  uint64_t flags,
                                  void *userdata);
+/*
+ * A definition of a method for a service to register.
+ */
+typedef struct VarlinkMethodDefinition {
+        const char *name;
+        VarlinkMethodCallback callback;
+        void *data;
+} VarlinkMethodDefinition;
 
 /*
  * Translate the error code into the error ID string
@@ -281,6 +289,17 @@ __attribute__((sentinel))
 long varlink_service_add_interface(VarlinkService *service,
                                    const char *interface_description,
                                    ...);
+/*
+ * Add an interface to the service and register callbacks for its
+ * methods.
+ *
+ * Callbacks have to be given as an array of VarlinkMethodDefinition
+ * structures.
+ */
+long varlink_service_add_interfacev(VarlinkService *service,
+                                   const char *interface_description,
+                                   VarlinkMethodDefinition *methods,
+                                   long num_methods);
 
 /*
  * Get the file descriptor to integrate with poll() into a mainloop; it becomes

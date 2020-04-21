@@ -470,6 +470,48 @@ _public_ long varlink_service_add_interface(VarlinkService *service,
         return 0;
 }
 
+_public_ long varlink_service_add_interfacev(VarlinkService *service,
+                                             const char *interface_description,
+                                             VarlinkMethodDefinition *methods,
+                                             long num_methods) {
+        _cleanup_(varlink_interface_freep) VarlinkInterface *interface = NULL;
+        long n;
+        long r;
+
+        if (!service->interfaces)
+                return -VARLINK_ERROR_PANIC;
+
+        r = varlink_interface_new(&interface, interface_description, NULL);
+        if (r < 0)
+                return r;
+
+        for (n = 0; n < num_methods; n++) {
+                VarlinkMethod *method;
+
+                method = varlink_interface_get_method(interface, methods[n].name);
+                if (!method)
+                        return -VARLINK_ERROR_METHOD_NOT_FOUND;
+
+                method->callback = methods[n].callback;
+                method->callback_userdata = methods[n].data;
+        }
+
+        switch (avl_tree_insert(service->interfaces, interface->name, interface)) {
+                case 0:
+                        break;
+
+                case -AVL_ERROR_KEY_EXISTS:
+                        return -VARLINK_ERROR_INVALID_INTERFACE;
+
+                default:
+                        return -VARLINK_ERROR_PANIC;
+        }
+
+        interface = NULL;
+
+        return 0;
+}
+
 _public_ int varlink_service_get_fd(VarlinkService *service) {
         return service->epoll_fd;
 }
