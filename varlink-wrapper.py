@@ -8,6 +8,5 @@ path_out = sys.argv[2]
 interface = os.path.basename(path_in).replace('.', '_')
 
 with open(path_out, 'wt') as output:
-    print('static const char *{} = R"INTERFACE('.format(interface), file=output)
-    print(open(path_in).read(), end='', file=output)
-    print(')INTERFACE";', file=output)
+    print('static const char *{} ='.format(interface), end='\n"', file=output)
+    print(*open(path_in).read().split('\n'), sep='\\n"\n"', end='";', file=output)

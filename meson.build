@@ -7,7 +7,7 @@ project('libvarlink', 'c',
                 'sysconfdir=/etc',
                 'localstatedir=/var',
         ],
-        meson_version : '>= 0.40')
+        meson_version : '>= 0.49')
 
 cc = meson.get_compiler('c')
 
@@ -40,7 +40,7 @@ c_args = '''
 '''.split()
 
 foreach arg : c_args
-        add_project_arguments(arg, language : 'c')
+        add_project_arguments(cc.get_supported_arguments(arg), language : 'c')
 endforeach
 
 libm = cc.find_library('m')
@@ -54,7 +54,9 @@ config_h = configure_file(
         output : 'config.h',
         configuration : conf)
 
-add_project_arguments('-include', 'config.h', language : 'c')
+libvarlink_config_include = include_directories('.')
+
+add_project_arguments('-include', meson.current_build_dir() / 'config.h', language : 'c')
 
 prefixdir = get_option('prefix')
 if not prefixdir.startswith('/')

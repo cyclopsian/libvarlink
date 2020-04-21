@@ -44,8 +44,10 @@ org_varlink_service_varlink_c_inc = custom_target(
 
 libvarlink_a = static_library(
         'varlink',
+        config_h,
         libvarlink_sources,
         org_varlink_service_varlink_c_inc,
+        include_directories: libvarlink_config_include,
         install : false)
 
 libvarlink_sym = '@0@/@1@'.format(meson.current_source_dir(), 'libvarlink.sym')
